@@ -96,3 +96,6 @@ RSpec.configure do |config|
   Kernel.srand config.seed
 =end
 end
+
+require 'xlsx'
+XlsxFilesPath = File.expand_path('../xlsx_files', __FILE__)
