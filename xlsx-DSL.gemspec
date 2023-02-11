@@ -1,3 +1,5 @@
+require_relative 'lib/xlsx/DSL/version'
+
 Gem::Specification.new do |s|
   s.name        = "xlsx-DSL"
   s.version     = OpenXML::SpreadsheetML::DSL::VERSION
