@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.authors     = ["Cyan Yan"]
   s.email       = "cyan_cg@outlook.com"
   s.files       = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec)/})}.select { |f| f.match /\.rb$/}
-  s.homepage    = "https://rubygems.org/gems/xlsx-DSL"
+  s.homepage    = "https://github.com/coalooball/xlsx-DSL"
   s.license     = "MIT"
 
   s.add_dependency 'nokogiri', '~> 1.13.10'
