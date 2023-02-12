@@ -57,6 +57,14 @@ module OpenXML
 
         Sheet.new(dimension, sheet_data, merge_cells)
       end
+
+      def max_column
+        /([A-Z]+)\d+$/.match(dimension)[1]
+      end
+
+      def max_row
+        /[A-Z]+(\d+)$/.match(dimension)[1]
+      end
     end
 
     class MergeCell
