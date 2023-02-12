@@ -25,6 +25,10 @@ module OpenXML
           retrieve_one_row index
         when /^[A-Z]+$/
           retrieve_one_column index
+        when /^(\d+)[\-:](\d+)$/
+          retrieve_rows($1, $2)
+        when /^([A-Z]+)[\-:]([A-Z]+)$/
+          retrieve_columns($1, $2)
         else
           raise IndexError, 'Invalid index'
         end
@@ -80,13 +84,21 @@ module OpenXML
             index = mc.top_left
           end
         end
-        self.sheet_data[index]
+        self.sheet_data[index].value
       end
 
       def retrieve_one_row index
         cells = []
         ('A'..max_column).each do |col|
           cells << retrieve_one_cell(col+index)
+        end
+        cells
+      end
+
+      def retrieve_rows(one, two)
+        cells = []
+        (one.to_i..two.to_i).each do |row_index|
+          cells << retrieve_one_row(row_index.to_s)
         end
         cells
       end
@@ -99,6 +111,13 @@ module OpenXML
         cells
       end
 
+      def retrieve_columns(one, two)
+        cells = []
+        (one..two).each do |column_index|
+          cells << retrieve_one_column(column_index)
+        end
+        cells
+      end
     end
 
     class MergeCell

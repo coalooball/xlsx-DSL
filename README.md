@@ -16,7 +16,11 @@ wb = OpenXML::SpreadsheetML::open 'new.xlsx'
 ws = wb['Sheet']
 ws = wb.sheets.first
 ```
-###### Acquire cell's value
+###### Acquire cells' value
 ```ruby
-ws['A1']
+ws['A1']              # a value of one cell
+ws['A']               # values of one column
+ws['1']               # values of one row
+ws['1:2']; ws['1-2']  # values of rows
+ws['A:C']; ws['A-C']  # values of columns
 ```
