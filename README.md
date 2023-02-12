@@ -4,9 +4,9 @@ A gem using DSL for reading&amp;writing Excel (.xlsx).
 ## Usage
 ###### Require gem
 ```ruby
-require 'xlsx'     # If you want OOP paradigm
-require 'xlsx/DSL' # If you want DSL paradigm
+require 'xlsx/DSL' 
 ```
+### OOP
 ###### Open one Excel
 ```ruby
 wb = OpenXML::SpreadsheetML::open 'new.xlsx'

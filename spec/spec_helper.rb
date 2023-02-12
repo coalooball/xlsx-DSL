@@ -97,5 +97,5 @@ RSpec.configure do |config|
 =end
 end
 
-require 'xlsx'
+require 'xlsx/DSL'
 XlsxFilesPath = File.expand_path('../xlsx_files', __FILE__)

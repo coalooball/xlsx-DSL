@@ -1,4 +1,12 @@
-rbs_path = File.expand_path('DSL', File.dirname(__FILE__))
-for file in Dir.entries(rbs_path)
-  require(File.expand_path($1, rbs_path)) if /(.*)\.rb$/.match(file)
-end
+%w{
+  zip
+  nokogiri
+
+  xlsx/parser
+  xlsx/shared_string
+  xlsx/sheet
+  xlsx/sheet_data
+  xlsx/workbook
+
+  xlsx/DSL/version
+}.each {|x| require x}
