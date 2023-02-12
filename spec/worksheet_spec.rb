@@ -57,5 +57,9 @@ describe OpenXML::SpreadsheetML::Workbook do
       expect(xlsx_test1['range']['A-B']).to eq([['1', '5', '9', '13'], ['2', '6', '10', '14']])  
       expect(xlsx_test1['range']['C:D']).to eq([['3', '7', '11', '15'], ['4', '8', '12', '16']])  
     end
+
+    it "Call private retrieve_one_matrix()" do  
+      expect(xlsx_test1['range']['B2:C3']).to eq([['6', '7'], ['10', '11']])  
+    end
   end
 end

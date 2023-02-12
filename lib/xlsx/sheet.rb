@@ -29,6 +29,8 @@ module OpenXML
           retrieve_rows($1, $2)
         when /^([A-Z]+)[\-:]([A-Z]+)$/
           retrieve_columns($1, $2)
+        when /^([A-Z]+)(\d+)[\-:]([A-Z]+)(\d+)$/
+          retrieve_one_matrix($1, $2, $3, $4)
         else
           raise IndexError, 'Invalid index'
         end
@@ -115,6 +117,18 @@ module OpenXML
         cells = []
         (one..two).each do |column_index|
           cells << retrieve_one_column(column_index)
+        end
+        cells
+      end
+      
+      def retrieve_one_matrix (one, two, three, four)
+        cells = []
+        (two.to_i..four.to_i).each do |row_index|
+          row = []
+          (one..three).each do |column_index|
+            row << retrieve_one_cell(column_index+row_index.to_s)
+          end
+          cells << row
         end
         cells
       end
