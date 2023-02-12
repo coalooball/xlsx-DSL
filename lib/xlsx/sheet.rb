@@ -18,15 +18,21 @@ module OpenXML
       end
 
       def [] index
-        self.merge_cells.each do |mc|
-          if mc.include?(index)
-            index = mc.top_left
-          end
+        case index
+        when /^[A-Z]+\d+$/
+          retrieve_one_cell index
+        when /^\d+$/
+          retrieve_one_row index
+        when /^[A-Z]+$/
+          retrieve_one_column index
+        else
+          raise IndexError, 'Invalid index'
         end
-        self.sheet_data[index] 
       end
 
-      alias at_cell []
+      def at_cell index
+        retrieve_one_cell index
+      end
 
       def self.parser content
         doc = Nokogiri::XML content
@@ -65,6 +71,34 @@ module OpenXML
       def max_row
         /[A-Z]+(\d+)$/.match(dimension)[1]
       end
+
+      private
+
+      def retrieve_one_cell index
+        self.merge_cells.each do |mc|
+          if mc.include?(index)
+            index = mc.top_left
+          end
+        end
+        self.sheet_data[index]
+      end
+
+      def retrieve_one_row index
+        cells = []
+        ('A'..max_column).each do |col|
+          cells << retrieve_one_cell(col+index)
+        end
+        cells
+      end
+
+      def retrieve_one_column index
+        cells = []
+        (1..max_row.to_i).each do |row|
+          cells << retrieve_one_cell(index+row.to_s)
+        end
+        cells
+      end
+
     end
 
     class MergeCell
