@@ -4,7 +4,7 @@ module OpenXML
     @@shared_strings = nil
 
     class << self
-      def open xlsx_path
+      def open(xlsx_path)
         Zip::File.open(xlsx_path) do |zf|
           zf.each do |entry|
             content = entry.get_input_stream.read
@@ -19,6 +19,7 @@ module OpenXML
           end
         end
         @@workbook.merge_sheets(@@sheets) if @@sheets
+        yield(@@workbook) if block_given?
         @@workbook
       end
 
