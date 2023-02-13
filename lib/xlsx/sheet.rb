@@ -86,7 +86,8 @@ module OpenXML
             index = mc.top_left
           end
         end
-        self.sheet_data[index].value
+        cell = self.sheet_data[index]
+        cell ? cell.value : nil
       end
 
       def retrieve_one_row index

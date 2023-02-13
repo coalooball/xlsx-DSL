@@ -9,6 +9,9 @@ describe OpenXML::SpreadsheetML::Workbook do
         expect(wb['some']['B5']).to eql('merge cell')  
         expect(wb['last']['E68']).to eql('E68cyan')  
       end
+      it "acquire `nil` when the cell is not found" do  
+        expect(wb['Sheet10']['G10']).to eql(nil)  
+      end
     end
     
     describe "Sheet#at_cell" do
