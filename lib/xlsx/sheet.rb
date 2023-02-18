@@ -1,12 +1,16 @@
 module OpenXML
   module SpreadsheetML
-    Sheet = Struct.new(
-      :dimension, :sheet_data, :merge_cells, :sheet_views,
-      :name, :sheetId, :rid
-    )
     MergeCell = Struct.new(:range)
 
     class Sheet
+      attr_accessor :dimension, :sheet_data, :merge_cells, :sheet_views, :name, :sheetId, :rid
+      
+      def initialize dimension = nil, sheet_data = nil, merge_cells = nil
+        @dimension = dimension
+        @sheet_data = sheet_data || {}
+        @merge_cells = merge_cells || {}
+      end
+      
       def + sheet
         self.dimension = self.dimension || sheet.dimension
         self.sheet_data = self.sheet_data || sheet.sheet_data
@@ -76,6 +80,12 @@ module OpenXML
 
       def max_row
         /[A-Z]+(\d+)$/.match(dimension)[1]
+      end
+
+      def merge_shared_strings shared_strings_reference
+        self.sheet_data.each do |index, cell|
+          cell.shared_strings_pointer = shared_strings_reference
+        end
       end
 
       private

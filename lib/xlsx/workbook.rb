@@ -1,11 +1,8 @@
 module OpenXML
   module SpreadsheetML
-    Workbook = Struct.new(
-      :sheets, :theme, :styles, :calc_chain, 
-      :xml_maps
-    )
-
     class Workbook
+      attr_accessor :sheets, :theme, :styles, :calc_chain, :xml_maps
+
       def [] index
         self.sheets.each do |sheet|
           return sheet if sheet.name == index
@@ -18,12 +15,20 @@ module OpenXML
         self.sheets.zip(sheets) do |x, y|
           new_sheets << x + y
         end
-        self.sheets = new_sheets
+        sheets = new_sheets
         self
       end
 
-      def self.parser content
-        sheets = []
+      def merge_shared_strings shared_strings_reference
+        sheets.each do |sheet|
+          sheet.merge_shared_strings shared_strings_reference
+        end
+      end
+
+      private
+
+      def parser content
+        @sheet_names = []
         doc = Nokogiri::XML content
         sheet_tags = doc.css('sheet')
         sheet_tags.each do |s|
@@ -31,9 +36,8 @@ module OpenXML
           sheet.name = s[:name]
           sheet.sheetId = s[:sheetId]
           sheet.rid = s['r:id']
-          sheets << sheet
+          @sheet_names << sheet
         end
-        Workbook.new(sheets = sheets)
       end
     end
   end

@@ -1,6 +1,14 @@
 module OpenXML
   module SpreadsheetML
     class SharedString
+      def initialize values # values is an array
+        @values = values
+      end
+
+      def [] index
+        @values[index]
+      end
+
       def self.parser content
         values = []
         doc = Nokogiri::XML content
@@ -8,7 +16,7 @@ module OpenXML
         t_tags.each do |t|
           values << t.text
         end
-        values
+        SharedString.new values
       end
     end
   end

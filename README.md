@@ -29,7 +29,9 @@ end
 ### OOP
 ###### Select one worksheet
 ```ruby
-wb = OpenXML::SpreadsheetML::open 'new.xlsx' # Initialize one Excel
+wb = OpenXML::SpreadsheetML::open 'new.xlsx'          # Initialize one Excel using open_helper
+wb = OpenXML::SpreadsheetML::Workbook.new 'new.xlsx'  # Initialize one Excel using Workbook.new
+wb = OpenXML::SpreadsheetML::Workbook.open 'new.xlsx' # Workbook.open is alias Workbook.new
 ws = wb['Sheet']
 ws = wb.sheets.first
 ```

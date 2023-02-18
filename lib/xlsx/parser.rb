@@ -1,10 +1,9 @@
 module OpenXML
   module SpreadsheetML
-    @@sheets = []
-    @@shared_strings = nil
-
-    class << self
-      def open(xlsx_path)
+    class Workbook
+      def initialize xlsx_path
+        @sheets = []
+        @shared_strings = nil
         Zip::File.open(xlsx_path) do |zf|
           zf.each do |entry|
             content = entry.get_input_stream.read
@@ -18,23 +17,27 @@ module OpenXML
             end
           end
         end
-        @@workbook.merge_sheets(@@sheets) if @@sheets
-        yield(@@workbook) if block_given?
-        @@workbook
+        merge_sheets(@sheet_names) if @sheet_names
+        merge_shared_strings(@shared_strings) if @shared_strings
+        yield(self) if block_given?
+      end
+        
+      class << self
+        alias open new
       end
 
       private
-
+  
       def workbook_parser content
-        @@workbook = Workbook.parser content
+        parser content
       end
-
+  
       def shared_strings_parser content
-        $shared_strings = SharedString.parser content || []
+        @shared_strings = SharedString.parser content || []
       end
-
+  
       def sheet_parser content
-        @@sheets << Sheet.parser(content)
+        @sheets << Sheet.parser(content)
       end
     end
   end
